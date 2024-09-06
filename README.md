@@ -54,7 +54,7 @@ When starting the analysis phase, I kept in mind the first question: *On which d
 
 Find all code used [here](https://github.com/madmarbles/NaNoWriMo---Data-Analysis/blob/main/Code).
 
-![Weekday Word Counts]()
+![Weekday Word Counts](https://github.com/madmarbles/NaNoWriMo---Data-Analysis/blob/main/weekday_count.png)
  
 The dashed line shows the recommended word count of 1,666 words needed to average each day to finish on time. From this graph, it is easy to see that my most productive days are Monday and Sunday, and my least productive days are Wednesday and Thursday. 
 
@@ -66,7 +66,7 @@ Days of significance in April include: Easter, and my brother’s birthday. My b
 
 After compiling a list of holidays, I’ll convert the data to long form and eliminate nulls. Then, clean up any data and create a graph.
 
- ![Holiday Word Counts]()
+ ![Holiday Word Counts](https://github.com/madmarbles/NaNoWriMo---Data-Analysis/blob/main/holiday%20word%20counts.png)
 
 The dashed line on the above graph shows the par of 1,666 words per day. Rather predictably, Thanksgivings are low word count days. Election days also tend to be closer to par, and Daylight Savings Days are only slightly higher productivity days, with a notable exception in 2014. 
 
@@ -74,7 +74,7 @@ Calculating and comparing means of the two categories shows no significance in t
 
 However, the data still shows some discrepancies in word counts on occasional days. Take a look at the graph of daily word counts generated with Tableau:
 
-![Daily Word Counts]()
+![Daily Word Counts](https://github.com/madmarbles/NaNoWriMo---Data-Analysis/blob/main/daily_count_key.png)
 
 There are a number of zeros that don’t correspond with holidays. Why?
 
