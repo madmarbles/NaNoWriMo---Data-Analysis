@@ -89,6 +89,8 @@ In April 2019, I was helping my brother prepare for his wedding.
 In November 2019, I attended a conference and saw the release of another Pokémon game: Sword and Shield.
 
 ## Share
+![Tableau Dashboard](https://github.com/madmarbles/NaNoWriMo---Data-Analysis/blob/main/tableau_dashboard.png)
+
 [This](https://public.tableau.com/shared/NH2P4D3DP?:display_count=n&:origin=viz_share_link) is a dashboard I created for this project. For my visualizations, I really wanted to highlight overall progress, as well as days based on productivity. I also included sections that show productivity by weekday and holidays.
 
 Here is a summary of takeaways:
