@@ -1,0 +1,147 @@
+# Code for NaNoWrimo Capstone Project
+
+### Install packages
+
+```{r eval=FALSE, include=FALSE}
+install.packages("ggplot2")
+install.packages("tidyr")
+install.packages("dplyr")
+install.packages("tidyverse")
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(tidyverse)
+```
+
+### Reshape the data to long format
+
+```{r}
+df_long <- nano_daily_counts %>%
+  pivot_longer(cols = -day, names_to = "weekday", values_to = "word_count")
+```
+
+### Group data by weekday
+
+```{r}
+df_long_v2 <- df_long %>%
+  mutate(group = as.factor(weekday))
+```
+
+### Create a line chart using ggplot2
+```{r Daily Word Count - Chronological, echo=TRUE, message=FALSE, warning=FALSE}
+df_long_v2 %>% 
+  ggplot(aes(x = day, y = word_count, color = weekday)) +
+  geom_line() +
+  scale_color_discrete(breaks = c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')) +
+  theme_classic() + 
+  labs(title = "Daily Word Count - Chronological")
+```
+
+### Reorder data to ascending
+
+```{r}
+nano_daily_counts_asc <- df_long_v2 %>%
+  group_by(weekday) %>%
+  arrange(word_count, .by_group=TRUE)
+```
+
+### Create line chart
+
+```{r}
+nano_daily_counts_asc %>% 
+  ggplot(aes(x = day, y = word_count, color = weekday)) +
+  geom_line() +
+  scale_color_discrete(breaks = c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')) +
+  theme_classic() + 
+  labs(title = "Daily Word Count") +
+  geom_hline(yintercept = 1666, linetype = "dashed")
+```
+
+### For holidays - reshape data to long format
+
+```{r}
+holidays_long <- holidays %>%
+  pivot_longer(cols = -day, names_to = "month", values_to = "holiday")
+```
+
+### Remove nulls
+
+```{r}
+only_holidays <- holidays_long %>% 
+      filter(if_all(where(is.character), ~ . != "NULL")) %>%
+       type.convert(as.is = TRUE)
+```
+
+### Merging datasets based on month and day columns
+
+```{r}
+holiday_counts <- merge(only_holidays, daily_long, by = c("month", "day"))
+```
+
+# add year to holiday_counts
+
+```{r}
+holiday_counts$year <- substr(holiday_counts$month, 
+                              start = nchar(holiday_counts$month) - 3, 
+                              stop = nchar(holiday_counts$month))
+```
+
+# remove years 2012 and 2013 from dataset
+
+```{r}
+holiday_counts = filter(holiday_counts, year != "2012" & year != "2013")
+```
+
+
+### Create line chart
+```{r}
+holiday_counts %>% 
+  ggplot(aes(x = year, y = word_count, color = holiday, shape = holiday)) +
+  geom_point() +
+  theme_classic() + 
+  labs(title = "Holiday Word Counts") +
+  geom_hline(yintercept = 1666, linetype = "dashed")
+```
+
+## Compare productivity on holidays and normal days
+
+### Calculate average words written on holidays
+
+```{r echo=TRUE}
+mean(holiday_counts$word_count)
+```
+
+### Find average words written on regular days
+
+### Import dataset of holidays with "none"
+
+```{r}
+not_holidays_test <- read_excel("NaNo Capstone/nano_totals.xlsx", sheet = "holidays")
+```
+
+### Reshape the data to long format
+
+```{r}
+not_holidays_test2 <- not_holidays_test %>%
+  pivot_longer(cols = -day, names_to = "month", values_to = "holiday")
+```
+
+### Remove holidays
+
+```{r}
+not_holidays_test3 <- not_holidays_test2 %>% 
+  filter(holiday == "none")
+```
+
+### Merge datasets to include word counts
+
+```{r}
+no_holidays <- merge(not_holidays_test3, daily_long, by = c("month", "day"))
+```
+
+### Calculate mean of not holidays
+
+```{r echo=TRUE}
+mean(no_holidays$word_count)
+```
